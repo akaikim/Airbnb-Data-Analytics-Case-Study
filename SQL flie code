@@ -1,0 +1,48 @@
+use air_bnb;
+
+#glimpse look at dataset
+select *
+from airbnb_prices;
+
+# Q1: What are the room_type avaiable?
+select  distinct room_type
+from airbnb_prices;
+
+# Q2: Count of each neighborhood to show how popular they are
+select neighborhood, count(neighborhood) as number_neighborhood
+from airbnb_prices
+group by neighborhood
+order by number_neighborhood desc;
+
+# Q3: What is the overall_satisfaction count by each rating?
+select overall_satisfaction, count(overall_satisfaction) as number_overall_satisfaction
+from airbnb_prices
+group by overall_satisfaction
+order by overall_satisfaction desc;
+
+# Q4:  What is the overall_satisfaction count where price is >= 150 but <= 180?
+select  overall_satisfaction, count(overall_satisfaction) as number_overall_satisfaction
+from airbnb_prices
+where price >= 150 and price <= 180
+group by overall_satisfaction
+order by overall_satisfaction desc;
+
+#Q5: create a copy of the dataset and impute the value 4 wherever the overall_satisfaction is 0.
+CREATE TABLE `airbnb_prices_2` AS SELECT * FROM `airbnb_prices`;
+SET SQL_SAFE_UPDATES = 0;
+UPDATE `air_bnb`.`airbnb_prices_2`
+SET overall_satisfaction = 4 
+WHERE overall_satisfaction = 0;
+SET SQL_SAFE_UPDATES = 1;
+
+#Q6: Now take the count of satisfaction ratings again
+select overall_satisfaction, count(overall_satisfaction) as number_overall_satisfaction
+from airbnb_prices_2
+group by overall_satisfaction
+order by overall_satisfaction desc;
+
+#Q7: Find out the count of each accomodation value to understand where is the most availability
+select neighborhood, accommodates, count(accommodates) as number_overall_accommodates
+from airbnb_prices
+group by neighborhood, accommodates
+order by neighborhood, accommodates asc;
